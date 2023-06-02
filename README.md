@@ -1,5 +1,5 @@
 # weather-bot
-An email bot that sends me daily forecasts and up to date weather alerts using python and the Open Meteo API.
+An email bot that sends me daily forecasts and up to date weather alerts using python and the [Open Meteo API](https://open-meteo.com/).
 This bot is currently hosted on a PythonAnywhere console and sends approximately 2 updates per day to my personal email at 9:00AM US Central and 23:00 US Central. The second update is an 'accuracy' calculation.
 It gives the day's forecast and contains temperature, precipitation, wind, and sunrise / sunset data. 
 
