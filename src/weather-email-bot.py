@@ -99,11 +99,11 @@ def send_weather_update(subject, destination):
 
 
 schedule.every().day.at("09:00", "US/Central").do(send_weather_update,
-                                                  subject='Here is your morning weather update!', destination='wyster432@gmail.com')
+                                                  subject='Here is your morning weather update!', destination=os.getenv('DESTINATION_EMAIL'))
 
 # For testing
 # schedule.every(1).minutes.do(send_weather_update,
-#                              subject='Here is your daily weather update!', destination='wyster432@gmail.com')
+#                              subject='Here is your daily weather update!', destination=os.getenv('DESTINATION_EMAIL'))
 
 while True:
     schedule.run_pending()
