@@ -11,6 +11,6 @@ If you want to clone and use this script for yourself, you'll need to create an 
 
 ## The accuracy calculation
 I had become mildly interested in seeing how the forecast I get from the API would fare each day, so I added in a second API call at the end of the day that collects
-that whole day's weather data (for the fields already mentioned above) by the hour. I then aggregate the hourly data by subject and make my own jusgements on it. I do not 
+that whole day's weather data (for the fields already mentioned above) by the hour. I then aggregate the hourly data by subject and make my own judgements on it. I do not 
 claim to be making any real statistical inferences from the judgements or the resulting 'accuracy' value, as this is purely for my own entertainment, but maybe in the 
 future that will be subject to change. 
