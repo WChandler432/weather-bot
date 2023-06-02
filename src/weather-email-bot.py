@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-api_url = "https://api.open-meteo.com/v1/forecast?latitude=40.80&longitude=-96.67&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_sum,precipitation_hours,precipitation_probability_max,windspeed_10m_max,winddirection_10m_dominant&current_weather=true&temperature_unit=fahrenheit&timezone=America%2FChicago"
+api_url = "https://api.open-meteo.com/v1/forecast?latitude=40.80&longitude=-96.67&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_sum,precipitation_hours,precipitation_probability_max,windspeed_10m_max,winddirection_10m_dominant&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&forecast_days=1&timezone=America%2FChicago"
 
 
 def processDailyData(data):
@@ -57,8 +57,8 @@ def send_weather_update(subject, destination):
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
 
-    # Create the body of the message (a plain-text and an HTML version).
-    text = "Hi!\nThis is your daily weather report!\nData:\nEXAMPLE DATA HERE"
+    # TODO: Plain text version of email
+    # text = "Hi!\nThis is your daily weather report!\nData:\nEXAMPLE DATA HERE"
     html = """\
     <html>
     <head></head>
@@ -71,23 +71,22 @@ def send_weather_update(subject, destination):
         Sunset Time: {sunset}<br>
         UV Index Max: {UVIndexMax}<br>
         Chance of Rain Today: {rainChanceMax}{percent_sign}<br>
-        Sum of Precipitation: {precipSum}mm<br>
+        Sum of Precipitation: {precipSum}in<br>
         Hours of Precipitation Today: {precipHours}<br>
-        Maximum Windspeed: {windspeedMax}(km / h)<br>
+        Maximum Windspeed: {windspeedMax}mph<br>
         Dominant Wind Direction: {rainChanceMax}{degree_sign}<br>
         </p>
     </body>
     </html>
     """.format(**locals())
 
-    # Record the MIME types of both parts - text/plain and text/html.
-    part1 = MIMEText(text, 'plain')
+    # part1 = MIMEText(text, 'plain')
     part2 = MIMEText(html, 'html')
 
     # Attach parts into message container.
     # According to RFC 2046, the last part of a multipart message, in this case
     # the HTML message, is best and preferred.
-    msg.attach(part1)
+    # msg.attach(part1)
     msg.attach(part2)
 
     port = 465
@@ -99,12 +98,13 @@ def send_weather_update(subject, destination):
         server.sendmail(my_mail, destination, msg.as_string())
 
 
-# schedule.every().day.at("16:37", "US/Central").do(send_email_gmail,
-#                                     subject='Here is your morning weather update!', destination='wyster432@gmail.com')
+schedule.every().day.at("09:00", "US/Central").do(send_weather_update,
+                                                  subject='Here is your morning weather update!', destination='wyster432@gmail.com')
 
-schedule.every(1).minutes.do(send_weather_update,
-                             subject='Here is your daily weather update!', destination='wyster432@gmail.com')
+# For testing
+# schedule.every(1).minutes.do(send_weather_update,
+#                              subject='Here is your daily weather update!', destination='wyster432@gmail.com')
 
 while True:
     schedule.run_pending()
-    time.sleep(60)  # wait one minute
+    time.sleep(60)
