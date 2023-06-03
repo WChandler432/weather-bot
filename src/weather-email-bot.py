@@ -168,7 +168,7 @@ def send_weather_update(subject, destination):
         server.sendmail(my_mail, destination, msg.as_string())
         
 
-schedule.every().day.at("09:00", "US/Central").do(send_weather_update,
+schedule.every().day.at("09:10", "US/Central").do(send_weather_update,
                                                   subject='Here is your morning weather update!', destination=os.getenv('DESTINATION_EMAIL'))
 
 schedule.every().day.at("23:00", "US/Central").do(end_of_day_data_update_and_accuracy, destination=os.getenv('DESTINATION_EMAIL'))
